@@ -46,22 +46,4 @@ response_text = r if isinstance(r, str) else r['data']['response']
 disease = extract_disease(response_text)
 
 
-def scrape_doctors(disease):
-    search_query = disease.replace(" ", "+")
-    url = f"https://www.practo.com/search/doctors?q={search_query}"
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
-    
-    doctors = []
-    for doctor in soup.select('.doctor-list-item'):
-        name = doctor.select_one('.doctor-name').text.strip()
-        address = doctor.select_one('.doctor-address').text.strip()
-        email = doctor.select_one('.doctor-email').text.strip() if doctor.select_one('.doctor-email') else 'Not Available'
-        doctors.append({
-            'name': name,
-            'address': address,
-            'email': email
-        })
-    
-    return doctors
 
